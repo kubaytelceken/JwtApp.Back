@@ -1,7 +1,11 @@
+using AutoMapper;
 using JwtApp.Back.Core.Application.Interfaces;
+using JwtApp.Back.Core.Application.Mappings;
 using JwtApp.Back.Persistance.Context;
 using JwtApp.Back.Persistance.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,15 @@ builder.Services.AddDbContext<JwtContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Local"));
 });
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(opt =>
+{
+    opt.AddProfiles(new List<Profile>()
+    {
+        new ProductProfile(),
+        new CategoryProfile()
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
