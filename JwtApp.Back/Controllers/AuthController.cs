@@ -20,14 +20,15 @@ namespace JwtApp.Back.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterUserCommandRequest request)
-        {
-            await this._mediator.Send(request);
-            return Created("", request);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Register(RegisterUserCommandRequest request)
+        //{
+        //    await this._mediator.Send(request);
+        //    return Created("", request);
+        //}
 
         [HttpPost]
+        [Route("Login")]
         public async Task<IActionResult> Login(CheckUserQueryRequest request)
         {
             var dto = await this._mediator.Send(request);

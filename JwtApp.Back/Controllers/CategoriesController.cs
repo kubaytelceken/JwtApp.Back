@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace JwtApp.Back.Controllers
 {
-    [Authorize(Roles = "Admin,Member")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -21,7 +21,9 @@ namespace JwtApp.Back.Controllers
             this.mediator = mediator;
         }
 
-        [HttpGet]   
+       
+        [HttpGet]
+        [Route("getCategories")]
         public async Task<IActionResult> List()
         {
             var result = await this.mediator.Send(new GetAllCategoriesQueryRequest());

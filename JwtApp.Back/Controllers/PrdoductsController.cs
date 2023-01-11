@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JwtApp.Back.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin,Member")]
     [Route("api/[controller]")]
     [ApiController]
     public class PrdoductsController : ControllerBase
