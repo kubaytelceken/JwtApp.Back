@@ -85,5 +85,55 @@ namespace JwtApp.Front.Controllers
             return View(model);
         }
 
+
+        public async Task<IActionResult> Update(int id)
+        {
+            var token = User.Claims.FirstOrDefault(x => x.Type == "accessToken")?.Value;
+            if (token != null)
+            {
+                var client = this.httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                string url = GenericClass.BaseAdress + "/api/Categories/"+id;
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonData = await response.Content.ReadAsStringAsync();
+                    var result = JsonSerializer.Deserialize<CategoryListModel>(jsonData, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                    return View(result);
+                }
+            }
+            return RedirectToAction("List");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CategoryListModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var token = User.Claims.FirstOrDefault(x => x.Type == "accessToken")?.Value;
+                if (token != null)
+                {
+                    var client = this.httpClientFactory.CreateClient();
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                    var jsonData = JsonSerializer.Serialize(model);
+                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                    string url = GenericClass.BaseAdress + "/api/Categories/";
+                    var response = await client.PutAsync(url, content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("List");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Something went wrong");
+                    }
+                }
+            }
+            return View(model);
+        }
     }
 }

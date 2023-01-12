@@ -10,17 +10,18 @@ namespace JwtApp.Back.Controllers
     [Authorize(Roles ="Admin,Member")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PrdoductsController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public PrdoductsController(IMediator mediator)
+        public ProductsController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
 
         [HttpGet]
+        [Route("getProducts")]
         public async Task<IActionResult> List()
         {
             var result = await this.mediator.Send(new GetAllProductsQueryRequest());

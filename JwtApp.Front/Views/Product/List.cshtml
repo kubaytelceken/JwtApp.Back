@@ -1,0 +1,44 @@
+﻿@model List<ProductListModel>
+@{
+    Layout = "_Layout";
+}
+
+@{
+    if (Model?.Count > 0)
+    {
+        <div class="text-end">
+            <a asp-action="Create" asp-asp-controller="Category" class="btn btn-primary btn-sm">Create Product</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Price</td>
+                    <td>Stock</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>@product.Stock</td>
+                        <td>
+                            <a asp-action="Remove" asp-asp-controller="Product" class="btn btn-danger btn-sm" asp-route-id="@product.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-danger">
+            No records found.
+        </div>
+    }
+}
+
