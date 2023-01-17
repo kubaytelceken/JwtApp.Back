@@ -27,6 +27,7 @@
                         <td>@product.Price</td>
                         <td>@product.Stock</td>
                         <td>
+                            <a asp-action="Update" asp-controller="Product" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Güncelle</a>
                             <a asp-action="Remove" asp-asp-controller="Product" class="btn btn-danger btn-sm" asp-route-id="@product.Id">Delete</a>
                         </td>
                     </tr>
